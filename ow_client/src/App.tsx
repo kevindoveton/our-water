@@ -5,55 +5,17 @@
 import * as React from 'react'; import { Component } from 'react';
 console.ignoredYellowBox = ['Remote debugger'];
 import {
-  BackHandler,
-  ScrollView,
-  Text,
-  View,
-  ProgressBarAndroid,
-  ToastAndroid,
-  TabBarIOSItem,
-} from 'react-native';
-import MapView, { Marker, Region } from 'react-native-maps';
-import Loading from './components/common/Loading';
-import ResourceDetailSection from './components/ResourceDetailSection';
-import { Location, LocationType } from './typings/Location';
-import { 
-  navigateTo,
-  showModal,
-  maybeLog,
-} from './utils';
-import {
-  MapStateOption,
-  MapHeightOption,
   HomeScreenType,
 } from './enums';
-import { bgLight, primaryDark, primary, primaryLight } from './utils/Colors';
-import FavouriteResourceList from './components/FavouriteResourceList';
 import BaseApi from './api/BaseApi';
 import { ConfigFactory } from './config/ConfigFactory';
-import { Resource, BasicCoords } from './typings/models/OurWater';
-import { isNullOrUndefined } from 'util';
-import MapSection, { MapRegion } from './components/MapSection';
-import PendingChangesBanner from './components/PendingChangesBanner';
-import { SyncStatus } from './typings/enums';
 
 import { connect } from 'react-redux'
-import NetworkStatusBanner from './components/NetworkStatusBanner';
 import { AppState } from './reducers';
-import * as appActions from './actions/index';
-import { UserType } from './typings/UserTypes';
-import { ActionMeta, SyncMeta } from './typings/Reducer';
-import { ResultType, SomeResult } from './typings/AppProviderTypes';
-import ExternalServiceApi, { MaybeExternalServiceApi } from './api/ExternalServiceApi';
-import { GGMNSearchEntity } from './typings/models/GGMN';
+import { MaybeExternalServiceApi } from './api/ExternalServiceApi';
 import { TranslationFile } from 'ow_translations/Types';
-import { SearchButtonPressedEvent } from './utils/Events';
-//@ts-ignore
-import EventEmitter from "react-native-eventemitter";
 import HomeMapScreen from './screens/HomeMapScreen';
 import HomeSimpleScreen from './screens/HomeSimpleScreen';
-
-import SplashScreen from 'react-native-splash-screen';
 
 
 export interface OwnProps {

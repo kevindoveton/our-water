@@ -42,6 +42,12 @@ export interface ActionProps {
 
 class SimpleResourceScreen extends Component<OwnProps & StateProps & ActionProps> {
 
+  constructor(props: OwnProps & StateProps & ActionProps) {
+    super(props);
+
+    this.selectResource = this.selectResource.bind(this);
+  }
+
   selectResource(resource: Resource) {
 
     //Navigate to a standalone resource view
@@ -55,19 +61,20 @@ class SimpleResourceScreen extends Component<OwnProps & StateProps & ActionProps
   render() {
     return (
       <View style={{
-        width: '100%',
-        height: '100%',
-        alignContent: 'center',
-        flexDirection: 'column',
-        flex: 1,
-      }}>
+          width: '100%',
+          height: '100%',
+          alignContent: 'center',
+          flexDirection: 'column',
+          flex: 1,
+        }}
+      >
 
         {/* TODO: add filter */}
         <FavouriteResourceList
           config={this.props.config}
           userId={this.props.userId}
           filterResourceType={this.props.resourceType}
-          onResourceCellPressed={(r: Resource) => this.selectResource(r)}
+          onResourceCellPressed={this.selectResource}
         />
       </View>
     )

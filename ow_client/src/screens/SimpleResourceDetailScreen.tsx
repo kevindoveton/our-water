@@ -60,12 +60,24 @@ class SimpleResourceDetailScreen extends Component<OwnProps & StateProps & Actio
     this.appApi = props.config.getAppApi();
 
     this.props.getResource(this.appApi, this.props.resourceId, this.props.userId);
+
+    this.onAddReadingPressed = this.onAddReadingPressed.bind(this);
   }
 
   componentDidUpdate(prevProps: OwnProps & StateProps & ActionProps, prevState: State, snapshot: any) {
     if (this.props.resourceId !== prevProps.resourceId) {
       this.props.getResource(this.appApi, this.props.resourceId, this.props.userId);
     }
+  }
+
+  onAddReadingPressed(resource: Resource) {
+    const { config, userId, translation: { templates: { resource_detail_new } } } = this.props;
+
+    navigateTo(this.props, 'screen.NewReadingScreen', resource_detail_new, {
+      resource,
+      config,
+      userId,
+    });
   }
 
   getResourceDetailSection() {
@@ -89,13 +101,7 @@ class SimpleResourceDetailScreen extends Component<OwnProps & StateProps & Actio
         config={this.props.config}
         userId={userId}
         resource={resource}
-        onAddReadingPressed={(resource: Resource) => {
-          navigateTo(this.props, 'screen.NewReadingScreen', resource_detail_new, {
-            resource,
-            config: this.props.config,
-            userId: this.props.userId
-          });
-        }}
+        onAddReadingPressed={this.onAddReadingPressed}
       />
     );
   }
@@ -120,7 +126,7 @@ class SimpleResourceDetailScreen extends Component<OwnProps & StateProps & Actio
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => {
   //Grab the resource from the list of resources
   let resource = null;
-  let resourceMeta = state.resourceMeta;
+  const resourceMeta = state.resourceMeta;
   let meta = resourceMeta.has(ownProps.resourceId) && resourceMeta.get(ownProps.resourceId);
   if (!meta) {
     meta = { loading: false, error: true, errorMessage: 'Something went wrong.' };
@@ -144,14 +150,6 @@ const mapDispatchToProps = (dispatch: any): ActionProps => {
     getResource: (api: BaseApi, resourceId: string, userId: string) => {
       return dispatch(appActions.getResource(api, resourceId, userId));
     }
-
-    // addRecent: (api: BaseApi, userId: string, resource: Resource) => {
-    //   dispatch(appActions.addRecent(api, userId, resource))
-    // },
-    // loadResourcesForRegion: (api: BaseApi, userId: string, region: Region) =>
-    //   dispatch(appActions.getResources(api, userId, region)),
-    // startExternalSync: (api: MaybeExternalServiceApi, userId: string) =>
-    //   dispatch(appActions.startExternalSync(api, userId)),
   }
 }
 
