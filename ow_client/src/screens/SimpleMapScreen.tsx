@@ -79,6 +79,15 @@ class SimpleMapScreen extends Component<OwnProps & StateProps & ActionProps> {
     //@ts-ignore
     this.appApi = props.config.getAppApi();
     this.externalApi = props.config.getExternalServiceApi();
+
+    //Binds
+    this.setMapRef = this.setMapRef.bind(this);
+    this.onMapRegionChange = this.onMapRegionChange.bind(this);
+    this.selectResource = this.selectResource.bind(this);
+    this.clearSelectedResource = this.clearSelectedResource.bind(this);
+    this.updateGeoLocation = this.updateGeoLocation.bind(this);
+    this.onCalloutPressed = this.onCalloutPressed.bind(this);
+    this.onMapStateChanged = this.onMapStateChanged.bind(this);
   }
 
   getPassiveLoadingIndicator() {
@@ -92,9 +101,9 @@ class SimpleMapScreen extends Component<OwnProps & StateProps & ActionProps> {
   }
 
   /**
-  * The user has dragged the map in the MapSection.
-  * Load new resources based on where they are looking
-  */
+   * The user has dragged the map in the MapSection.
+   * Load new resources based on where they are looking
+   */
   async onMapRegionChange(region: Region) {
     const { translation: { templates: { app_resource_load_error } } } = this.props;
 
@@ -103,6 +112,10 @@ class SimpleMapScreen extends Component<OwnProps & StateProps & ActionProps> {
     if (result.type === ResultType.ERROR) {
       ToastAndroid.showWithGravity(app_resource_load_error, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
+  }
+
+  setMapRef(ref: any) {
+    this.mapRef = ref;
   }
 
   selectResource(resource: Resource) {
@@ -141,6 +154,10 @@ class SimpleMapScreen extends Component<OwnProps & StateProps & ActionProps> {
     });
   }
 
+  onMapStateChanged(mapState: MapStateOption) {
+    this.setState({mapState});
+  }
+
   render() {
     const { initialRegion } = this.state;
     const { userIdMeta: { loading } } = this.props;
@@ -172,19 +189,19 @@ class SimpleMapScreen extends Component<OwnProps & StateProps & ActionProps> {
         {this.getPassiveLoadingIndicator()}
         {isNullOrUndefined(initialRegion) ? null :
           <MapSection
-            mapRef={(ref: any) => { this.mapRef = ref }}
             initialRegion={initialRegion}
             resources={this.props.resources}
-            onMapRegionChange={(l: Region) => this.onMapRegionChange(l)}
-            onResourceSelected={(r: Resource) => this.selectResource(r)}
-            onResourceDeselected={() => this.clearSelectedResource()}
-            onGetUserLocation={(l: Location) => this.updateGeoLocation(l)}
-            onMapStateChanged={(m: MapStateOption) => this.setState({ mapState: m })}
+            mapRef={this.setMapRef}
+            onMapRegionChange={this.onMapRegionChange}
+            onResourceSelected={this.selectResource}
+            onResourceDeselected={this.clearSelectedResource}
+            onGetUserLocation={this.updateGeoLocation}
+            onMapStateChanged={this.onMapStateChanged}
+            onCalloutPressed={this.onCalloutPressed}
             // Will never have a selected resource?
             hasSelectedResource={false}
             shouldShrinkForSelectedResource={false}
             shouldShowCallout={true}
-            onCalloutPressed={(r: Resource) => this.onCalloutPressed(r)}
           />}
       </View>
     )
