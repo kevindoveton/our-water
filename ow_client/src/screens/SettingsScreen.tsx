@@ -51,6 +51,36 @@ class SettingsScreen extends React.Component<OwnProps & StateProps & ActionProps
 
   constructor(props: OwnProps & StateProps & ActionProps) {
     super(props);
+    
+    //Binds
+    this.showConnectToServiceScreen = this.showConnectToServiceScreen.bind(this);
+    this.showSyncScreen = this.showSyncScreen.bind(this);
+    this.showLanguageSelector = this.showLanguageSelector.bind(this);
+    this.showEditResourceScreen = this.showEditResourceScreen.bind(this);
+  }
+
+  showConnectToServiceScreen() {
+    const {
+      externalLoginDetails,
+      translation: {
+        templates: {
+          settings_connect_to_pending_title,
+        }
+      }
+    } = this.props;
+
+
+    showModal(
+      this.props,
+      'screen.menu.ConnectToServiceScreen',
+      settings_connect_to_pending_title,
+      {
+        config: this.props.config,
+        //TODO: how to get the userId in here???
+        userId: this.props.userId,
+        isConnected: externalLoginDetails.status === ConnectionStatus.NO_CREDENTIALS,
+      }
+    )
   }
 
   /**
@@ -96,20 +126,10 @@ class SettingsScreen extends React.Component<OwnProps & StateProps & ActionProps
     return (
       <ListItem
         title={title}
-        onPress={() => showModal(
-          this.props, 
-          'screen.menu.ConnectToServiceScreen',
-          settings_connect_to_pending_title,
-          {
-            config: this.props.config,
-            //TODO: how to get the userId in here???
-            userId: this.props.userId,
-            isConnected: externalLoginDetails.status === ConnectionStatus.NO_CREDENTIALS,
-          }
-        )}
+        onPress={this.showConnectToServiceScreen}
         disabled={loading}
         leftIcon={leftIcon}
-        hideChevron
+        hideChevron={true}
         subtitle={subtitle}
         subtitleStyle={{
           color: error1,
@@ -118,10 +138,24 @@ class SettingsScreen extends React.Component<OwnProps & StateProps & ActionProps
     );
   }
 
+  showSyncScreen() {
+    const { translation: { templates: { settings_sync_heading } } } = this.props;
+
+    showModal(
+      this.props,
+      'screen.menu.SyncScreen',
+      settings_sync_heading,
+      {
+        config: this.props.config,
+        userId: this.props.userId,
+      }
+    )
+  }
+
   getSyncButton() {
     const { translation: { templates: { settings_sync_heading}}} = this.props;
 
-    let leftIcon: any = {
+    const leftIcon: any = {
       name: 'sync',
       color: secondaryText,
     };
@@ -129,19 +163,10 @@ class SettingsScreen extends React.Component<OwnProps & StateProps & ActionProps
     return (
       <ListItem
         title={settings_sync_heading}
-        onPress={() => showModal(
-          this.props,
-          'screen.menu.SyncScreen',
-          settings_sync_heading,
-          {
-            config: this.props.config,
-            //TODO: how to get the userId in here???
-            userId: this.props.userId,
-          }
-        )}
+        onPress={this.showSyncScreen}
         disabled={false}
         leftIcon={leftIcon}
-        hideChevron
+        hideChevron={true}
         // subtitle={''}
         subtitleStyle={{
           color: error1,
@@ -150,25 +175,38 @@ class SettingsScreen extends React.Component<OwnProps & StateProps & ActionProps
     );
   }
 
+  showLanguageSelector() {
+    showLighbox(
+      this.props,
+      'modal.SelectLanguageModal',
+      {
+        config: this.props.config,
+        userId: this.props.userId,
+      }
+    );
+  }
+
   getLanguageButton() {
     return (
       <ListItem
         title="Language"
-        onPress={() => showLighbox(
-          this.props,
-          'modal.SelectLanguageModal',
-          {
-            config: this.props.config,
-            userId: this.props.userId,
-          }
-        )}
+        onPress={this.showLanguageSelector}
         leftIcon={{
           name: 'language',
           color: secondaryText,
         }}
-        hideChevron
+        hideChevron={true}
       />
     );
+  }
+
+  showEditResourceScreen() {
+    const { translation: { templates: { settings_new_resource } } } = this.props;
+
+    navigateTo(this.props, 'screen.menu.EditResourceScreen', settings_new_resource, {
+      config: this.props.config,
+      userId: this.props.userId,
+    })
   }
 
   render() {
@@ -187,19 +225,12 @@ class SettingsScreen extends React.Component<OwnProps & StateProps & ActionProps
         {this.getSyncButton()}
         <ListItem
           title={settings_new_resource}
-          onPress={() => {
-            //TODO: dismiss the sidebar
-            navigateTo(this.props, 'screen.menu.EditResourceScreen', settings_new_resource, {
-              config: this.props.config,
-              userId: this.props.userId,
-            })
-          }
-          }
+          onPress={this.showEditResourceScreen}
           leftIcon={{
             name: 'create',
             color: secondaryText,
           }}
-          hideChevron
+          hideChevron={true}
         />
         {this.getLanguageButton()}
       </KeyboardAvoidingView>
