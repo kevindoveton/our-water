@@ -62,17 +62,31 @@ class SearchScreen extends Component<OwnProps & StateProps & ActionProps> {
       hasSearched: false,
       page: 1,
     };
+
+    //Binds
+    this.onChangeText = this.onChangeText.bind(this);
+    this.performFirstSearch = this.performFirstSearch.bind(this);
   }
+
+  //Bound functions
+  onChangeText(searchQuery: string) {
+    this.setState({ searchQuery, hasSearched: false });
+  }
+
+  performFirstSearch() {
+    this.performSearch(1);
+  }
+
 
   getSearchBar() {
     const { translation: { templates: { search_heading}}} = this.props;
 
     return (
       <SearchBar
-        lightTheme
-        noIcon
-        onChangeText={(searchQuery) => this.setState({ searchQuery, hasSearched: false })}
-        onEndEditing={() => this.performSearch(1)}
+        lightTheme={true}
+        noIcon={true}
+        onChangeText={this.onChangeText}
+        onEndEditing={this.performFirstSearch}
         value={this.state.searchQuery}
         placeholder={search_heading} />
     );
@@ -145,18 +159,18 @@ class SearchScreen extends Component<OwnProps & StateProps & ActionProps> {
                 containerStyle={{
                   paddingLeft: 10,
                 }}
-                hideChevron
+                hideChevron={true}
+                roundAvatar={true}
                 key={i}
+                // TODO: I'm not sure how to properly bind this.
                 onPress={() => {
                   this.props.navigator.pop();
                   this.props.onSearchResultPressed(r)
                 }}
-                roundAvatar
                 //TODO: this refers to the GGMN title, which we don't have in MyWell...
                 title={r.legacyId}
                 avatar={getGroundwaterAvatar()}
-                >
-              </ListItem>
+              />
             );
           })  
         }
@@ -167,11 +181,9 @@ class SearchScreen extends Component<OwnProps & StateProps & ActionProps> {
             containerStyle={{
               paddingLeft: 10,
             }}
-            hideChevron
+            hideChevron={true}
             key={'load_more'}
-            onPress={() => {
-              this.loadMore()
-            }}
+            onPress={this.loadMore}
             title={loading? '' : search_more}
             avatar={loading ? <Loading/> : undefined}
           /> : null
@@ -281,13 +293,13 @@ class SearchScreen extends Component<OwnProps & StateProps & ActionProps> {
                     paddingLeft: 0,
                     marginLeft: 0,
                   }}
-                  hideChevron
+                  hideChevron={true}
+                  roundAvatar={true}
                   key={i}
                   component={TouchableNativeFeedback}
                   onPress={() => {
                     this.setState({searchQuery: r}, () => {this.performSearch()});
                   }}
-                  roundAvatar
                   title={r}
                 />
               );
