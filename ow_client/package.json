@@ -92,11 +92,19 @@
   "detox": {
     "test-runner": "jest",
     "configurations": {
-      "ios.sim.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/example.app",
-        "build": "xcodebuild -project ios/example.xcodeproj -scheme example -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
-        "type": "ios.simulator",
-        "name": "iPhone 7"
+      "android.emu.debug": {
+        "binaryPath": "android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+        "old_build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "build": "make build-test",
+        "type": "android.attached",
+        "name": "048d10b6828edc6f"
+      },
+      "android.emu.release": {
+        "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
+        "old_build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
+        "build": "make build-production",
+        "type": "android.attached",
+        "name": "048d10b6828edc6f"
       }
     }
   }

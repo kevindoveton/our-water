@@ -102,6 +102,13 @@ build:
 	../env/increment_build.sh
 	source /tmp/ow_env && source ../env/.env.deployment.sh && cd ${dir}/android/ && ENVFILE=/tmp/ow_env ./gradlew assembleDebug --stacktrace
 
+build-test:
+	@make env
+	@echo 'Building debug-test'
+	../env/increment_build.sh
+	# cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..
+	source /tmp/ow_env && source ../env/.env.deployment.sh && cd ${dir}/android/ && ENVFILE=/tmp/ow_env ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug 
+
 build-production:
 	@make env
 	@echo 'Building production only'
