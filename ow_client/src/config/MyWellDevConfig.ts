@@ -7,7 +7,8 @@ const orgId = EnvConfig.OrgId;
 const MyWellDevConfig: RemoteConfig = {
   applicationName: 'MyWell',
   baseApiType: BaseApiType.MyWellApi,
-  firebaseBaseUrl: 'localhost:5000',
+  firebaseBaseUrl: 'https://us-central1-our-water.cloudfunctions.net',
+  // firebaseBaseUrl: 'localhost:5000',
   ggmnBaseUrl: 'https://ggmn.lizard.net/api',
   showConnectToButton: false,
   showSyncButton: false,
@@ -26,7 +27,7 @@ const MyWellDevConfig: RemoteConfig = {
   editResource_hasResourceName: false,
   editResource_showOwerName: true,
   editResource_availableTypes: '["well","raingauge","quality","checkdam"]',
-  editResource_defaultTypes: '{"well":[{"name":"default","parameter":"gwmbgs","readings":[]}],"raingauge":[{"name":"default","parameter":"gwmbgs","readings":[]}],"quality":[{"name":"salinity","parameter":"salinity","readings":[]},{"name":"ph","parameter":"ph","readings":[]},{"name":"nitrogen","parameter":"nitrogen","readings":[]}],"checkdam":[{"name":"default","parameter":"gwmbgs","readings":[]}]}',
+  editResource_defaultTypes: '{"well":[{"name":"default","parameter":"default","readings":[],"unitOfMeasure":"m"}],"raingauge":[{"name":"default","parameter":"default","readings":[],"unitOfMeasure":"mm"}],"quality":[{"name":"salinity","parameter":"salinity","readings":[],"unitOfMeasure":"ppm"},{"name":"ph","parameter":"ph","readings":[],"unitOfMeasure":"ppm"},{"name":"nitrogen","parameter":"nitrogen","readings":[],"unitOfMeasure":"ppm"}],"checkdam":[{"name":"default","parameter":"default","readings":[],"unitOfMeasure":"m"}]}',
   editResource_allowCustomId: false,
   editResource_hasWaterColumnHeight: true,
   favouriteResource_scrollDirection: ScrollDirection.Vertical,

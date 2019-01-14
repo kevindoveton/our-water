@@ -6,7 +6,6 @@ export REACT_APP_FB_PROJECT_ID="our-water"
 export REACT_APP_FB_STORAGE_BUCKET="our-water.appspot.com"
 export REACT_APP_ORG_ID="ggmn" 
 export REACT_APP_BASE_URL="https://us-central1-our-water.cloudfunctions.net"
-# export REACT_APP_BASE_URL="https://ourwater.localtunnel.me/our-water/us-central1"
 
 #config timeout is in seconds
 export REACT_APP_REMOTE_CONFIG_TIMEOUT=10
@@ -16,6 +15,7 @@ export ENABLE_RENDER_LOGGING='false'
 export ENABLE_REDUX_LOGGING='false'
 export ENABLE_CACHE='false'
 
+#Remote config setup
 export SHOULD_USE_LOCAL_CONFIG='false'
 export CONFIG_TYPE='GGMNDevConfig'
 
