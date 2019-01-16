@@ -103,11 +103,17 @@ def appVersionCode = Integer.valueOf(System.env.versionCode ?: 0)
 
 android {
     compileSdkVersion 26
+    buildToolsVersion '27.0.3'
 
     //TODO: remove this - just trying to get firebase to work
     lintOptions {
-          abortOnError true
-      }
+        abortOnError true
+    }
+     
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         /* look in env/env.<project>.<stage>.sh */
@@ -166,14 +172,14 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-splash-screen')
-    compile project(':react-native-maps')
-    compile project(':react-native-firebase')
-    compile project(':react-native-svg')
-    compile project(':rn-async-storage')
-    compile project(':react-native-keychain')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-config')
+    implementation project(':react-native-splash-screen')
+    implementation project(':react-native-maps')
+    implementation project(':react-native-firebase')
+    implementation project(':react-native-svg')
+    implementation project(':rn-async-storage')
+    implementation project(':react-native-keychain')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-config')
 
     implementation(project(':react-native-firebase')) {
         transitive = false
@@ -181,13 +187,11 @@ dependencies {
     }
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
-    //not sure which we want?
-    // implementation "com.android.support:appcompat-v7:23.0.1"
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
 
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    //From node_modules
+    implementation "com.facebook.react:react-native:+"
     
     //react-native-maps
     implementation(project(':react-native-maps')){
