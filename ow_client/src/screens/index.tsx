@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { Navigation } from 'react-native-navigation';
+import {
+  Navigation,
+  ScreenVisibilityListener
+} from "react-native-navigation-v1-v2-adapter";
 
 import NewReadingScreen from './NewReadingScreen';
 import SettingsScreen from './SettingsScreen';
