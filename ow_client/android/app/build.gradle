@@ -123,7 +123,10 @@ android {
         /* look in env/env.deployment */
         versionName System.getenv('versionName')
         versionCode appVersionCode
-        minSdkVersion 16
+        //Min was 16, but RNN v2 requires 19 :(
+        minSdkVersion 19
+        //Tells RNN What version of React Native we are using
+        missingDimensionStrategy "RNN.reactNativeVersion", "reactNative55"
         targetSdkVersion 22 // This needs to be 26... but breaks a whole bunch of other stuff
         ndk {
             abiFilters "armeabi-v7a", "x86"
