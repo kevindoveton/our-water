@@ -35,7 +35,7 @@ import { Resource, BasicCoords } from './typings/models/OurWater';
 import { isNullOrUndefined } from 'util';
 import MapSection, { MapRegion } from './components/MapSection';
 import PendingChangesBanner from './components/PendingChangesBanner';
-import { SyncStatus } from './typings/enums';
+import { SyncStatus, NavigationId } from './typings/enums';
 
 import { connect } from 'react-redux'
 import NetworkStatusBanner from './components/NetworkStatusBanner';
@@ -59,7 +59,8 @@ import SplashScreen from 'react-native-splash-screen';
 export interface OwnProps {
   navigator: any;
   config: ConfigFactory,
-  appApi: BaseApi, 
+  appApi: BaseApi,
+  componentId: NavigationId,
 }
 
 export interface StateProps {  
@@ -107,9 +108,9 @@ class App extends Component<OwnProps & StateProps & ActionProps> {
       case (HomeScreenType.Simple): {
         return (
           <HomeSimpleScreen
-            navigator={this.props.navigator}
-            config={this.props.config}
             appApi={this.props.appApi}
+            componentId={this.props.componentId}
+            config={this.props.config}
           />
         );
       }

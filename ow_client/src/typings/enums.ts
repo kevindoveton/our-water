@@ -6,3 +6,31 @@ export enum SyncStatus {
   pendingGGMNWrites = 'pendingGGMNWrites', //We have pending writes that have been saved to firebase, but not to GGMN
   ggmnError = 'ggmnError', //There was an error saving readings to ggmn.
 }
+
+export enum NavigationId {
+  'leftSideComponentId',
+  'tabHome',
+  'tabScan,',
+  'tabMap',
+
+}
+
+export enum NavigationName {
+  'App'='App',
+  'MenuScreen'='MenuScreen',
+  'SearchScreen'='SearchScreen',
+  'EditResourceScreen'='EditResourceScreen',
+  'ConnectToServiceScreen'='ConnectToServiceScreen',
+  'SyncScreen'='SyncScreen',
+  'SignInScreen'='SignInScreen',
+  'NewReadingScreen'='NewReadingScreen',
+  'SelectLanguageModal'='SelectLanguageModal',
+  'ScanScreen'='ScanScreen',
+  'SimpleMapScreen'='SimpleMapScreen',
+  'SimpleResourceScreen'='SimpleResourceScreen',
+  'SimpleResourceDetailScreen'='SimpleResourceDetailScreen',
+  'TakePictureScreen'='TakePictureScreen',
+  'GroundwaterSyncScreen'='GroundwaterSyncScreen',
+  'EditReadingsScreen'='EditReadingsScreen',
+  'PendingScreen'='PendingScreen',
+}

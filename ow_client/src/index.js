@@ -14,157 +14,269 @@ import SearchButton from './components/common/SearchButton';
 import { SearchButtonPressedEvent, SearchEventValue } from './utils/Events';
 //@ts-ignore
 import EventEmitter from "react-native-eventemitter";
-import { AppRegistry } from 'react-native';
 import TestApp from './TestApp';
 import { HomeScreenType } from './enums';
 import { primaryText } from './utils/NewColors';
+import { NavigationId, NavigationName } from './typings/enums';
 
 const homeIcon = require('./assets/home.png');
 const scanIcon = require('./assets/scan.png');
 const mapIcon = require('./assets/map.png');
 
-// This fixes set issues with react native
+// This fixes Set issues with react native
 // ref: https://github.com/facebook/react-native/issues/3223
 require('core-js/es6/array')
 
 let config: ConfigFactory;
 const orgId = EnvironmentConfig.OrgId;
 
-Promise.resolve(true)
-.then(() => {
-  if (Config.SHOULD_USE_LOCAL_CONFIG === 'true') {
-    console.log("USING LOCAL CONFIG");
+//TODO: refactor and clean this all up
+function bootstrap () {
+  Promise.resolve(true)
+  .then(() => {
+    if (Config.SHOULD_USE_LOCAL_CONFIG === 'true') {
+      console.log("USING LOCAL CONFIG");
+      switch (Config.CONFIG_TYPE) {
+        case 'GGMNDevConfig':
+          return GGMNDevConfig;
+        default:
+          return MyWellDevConfig;
+      }
+    }
+    return FirebaseConfig.getAllConfig();
+  })
+  .catch(err => {
+    console.log("Error getting remote config", err);
+    console.log("Defaulting to local config.");
+    
     switch (Config.CONFIG_TYPE) {
       case 'GGMNDevConfig':
         return GGMNDevConfig;
       default:
         return MyWellDevConfig;
     }
-  }
-  return FirebaseConfig.getAllConfig();
-})
-.catch(err => {
-  console.log("Error getting remote config", err);
-  console.log("Defaulting to local config.");
-  
-  switch (Config.CONFIG_TYPE) {
-    case 'GGMNDevConfig':
-      return GGMNDevConfig;
-    default:
-      return MyWellDevConfig;
-  }
-})
-.then(async (_remoteConfig) => {
-  const networkApi = await NetworkApi.createAndInit();
-  const envConfig: EnvConfig = {
-    orgId,
-  }
-
-  config = new ConfigFactory(_remoteConfig, envConfig, networkApi);
-  return registerScreens(config);
-})
-.then(() => {
-  console.log("registering AppRegistry");
-  AppRegistry.registerComponent('App', () => TestApp);
-  console.log("registering search button");
-  Navigation.registerComponent('example.SearchButton', () => SearchButton);
-
-  const navigatorButtons = {
-    leftButtons: [{
-      title: 'MENU',
-      passProps: {},
-      id: 'sideMenu',
-      disabled: false,
-      disableIconTint: true,
-      buttonColor: primaryText.high,
-      buttonFontSize: 14,
-      buttonFontWeight: '600'
-    }],
-    rightButtons: [{
-      component: 'example.SearchButton',
-      passProps: {
-        text: 'Search',
-      },
-      id: 'search',
-    }],
-  };
-
-  const drawer = {
-    left: {
-      screen: 'screen.MenuScreen',
-      disableOpenGesture: true,
-      fixedWidth: 800,
-      passProps: {
-        config
-      }
+  })
+  .then(async (_remoteConfig) => {
+    const networkApi = await NetworkApi.createAndInit();
+    const envConfig: EnvConfig = {
+      orgId,
     }
-  };
 
-  switch(config.getHomeScreenType()) {
-    case (HomeScreenType.Map): {
-      Navigation.startSingleScreenApp({
-        screen: {
-          screen: 'screen.App',
-          title: config.getApplicationName(),
-          navigatorStyle: defaultNavigatorStyle,
-          navigatorButtons,
-        },
-        drawer,
-        animationType: 'fade',
+    config = new ConfigFactory(_remoteConfig, envConfig, networkApi);
+    return registerScreens(config);
+  })
+  .then(() => {
+    console.log("registering AppRegistry");
+    // For debugging Navigation issues
+    // Navigation.registerComponent('screen.TestApp', () => TestApp);
+
+    // console.log("registering search button");
+    // Navigation.registerComponent('example.SearchButton', () => SearchButton);
+
+    const navigatorButtons = {
+      leftButtons: [{
+        title: 'MENU',
+        passProps: {},
+        id: 'sideMenu',
+        disabled: false,
+        disableIconTint: true,
+        buttonColor: primaryText.high,
+        buttonFontSize: 14,
+        buttonFontWeight: '600'
+      }],
+      rightButtons: [{
+        component: 'example.SearchButton',
         passProps: {
-          config,
+          text: 'Search',
         },
-      });
+        id: 'search',
+      }],
+    };
 
-      break;
-    }
-    case (HomeScreenType.Simple): {
-      Navigation.startTabBasedApp({
-        tabs: [
-          {
+    const drawer = {
+      left: {
+        screen: 'screen.MenuScreen',
+        disableOpenGesture: true,
+        fixedWidth: 800,
+        passProps: {
+          config
+        }
+      }
+    };
+
+    switch(config.getHomeScreenType()) {
+      case (HomeScreenType.Map): {
+        Navigation.startSingleScreenApp({
+          screen: {
             screen: 'screen.App',
-            icon: homeIcon,
             title: config.getApplicationName(),
-            navigatorButtons,
             navigatorStyle: defaultNavigatorStyle,
+            navigatorButtons,
           },
-          {
-            screen: 'screen.ScanScreen',
-            icon: scanIcon,
-            title: config.getApplicationName(),
-            navigatorButtons,
-            navigatorStyle: defaultNavigatorStyle,
+          drawer,
+          animationType: 'fade',
+          passProps: {
+            config,
           },
-          {
-            screen: 'screen.SimpleMapScreen',
-            icon: mapIcon,
-            title: config.getApplicationName(),
-            navigatorButtons,
-            navigatorStyle: defaultNavigatorStyle,
+        });
+
+        break;
+      }
+      case (HomeScreenType.Simple): {
+        const leftMenu = {
+          component: { 
+            id: NavigationId.leftSideComponentId,
+            name: NavigationName.MenuScreen,
+            passProps: { config },
           }
-        ],
-        tabsStyle: { 
-          tabBarButtonColor: primaryText,
-          tabBarSelectedButtonColor: primaryDark,
-          tabBarBackgroundColor: '#551A8B', // optional, change the background color of the tab bar
-          initialTabIndex: 1, // optional, the default selected bottom tab. Default: 0. On Android, add this to appStyle
-        },
-        appStyle: {
-          // Here for android
-          tabBarButtonColor: bgMed,
-          tabBarSelectedButtonColor: primaryDark,
-          orientation: 'portrait',
-          bottomTabBadgeTextColor: 'red', // Optional, change badge text color. Android only
-          bottomTabBadgeBackgroundColor: 'green', // Optional, change badge background color. Android only
-        },
-        drawer,
-        passProps: {config},
-        animationType: 'fade'
-      });
-    break;
+        };
+
+        const homeTab = {
+          stack: {
+            id: 'homeTabStack',
+            children: [{
+              component: {
+                id: NavigationId.tabHome,
+                name: NavigationName.App,
+                passProps: { config, componentId: NavigationId.tabHome },
+              }
+            }],
+            options: {
+              bottomTab: {
+                icon: homeIcon,
+                testID: 'FIRST_TAB_BAR_BUTTON'
+              }
+            }
+          }
+        };
+
+        const scanTab = {
+          component: {
+            id: NavigationId.tabScan,
+            name: NavigationName.ScanScreen,
+            passProps: { config, componentId: NavigationId.tabScan },
+            options: {
+              bottomTab: {
+                icon: scanIcon,
+                testID: 'SECOND_TAB_BAR_BUTTON'
+              }
+            }
+          }
+        };
+
+        const mapTab = {
+          component: {
+            id: NavigationId.tabMap,
+            name: NavigationName.SimpleMapScreen,
+            passProps: { config },
+            options: {
+              bottomTab: {
+                icon: mapIcon,
+                  testID: 'THIRD_TAB_BAR_BUTTON'
+              }
+            }
+          }
+        };
+
+        Navigation.setRoot({
+          root: {
+            sideMenu: {
+              left: leftMenu,
+              center: {
+                bottomTabs: {
+                  children: [
+                    homeTab,
+                    scanTab,
+                    mapTab,
+                  ]
+                }
+              }
+            }
+          }
+        });
+
+      
+
+        // Navigation.setRoot({
+        //   root: {
+        //     bottomTabs: {
+        //       children: [{
+        //         component: {
+        //           name: 'screen.TestApp',
+        //           passProps: { config },
+        //           options: {
+        //             bottomTab: {
+        //               text: 'Tab 2',
+        //               icon: scanIcon,
+        //               testID: 'SECOND_TAB_BAR_BUTTON'
+        //             }
+        //           }
+        //         }
+        //       }]
+        //     }
+        //   }
+        // });
+
+        // Navigation.startTabBasedApp({
+        //   tabs: [
+        //     {
+        //       screen: 'screen.App',
+        //       icon: homeIcon,
+        //       title: config.getApplicationName(),
+        //       navigatorButtons,
+        //       navigatorStyle: defaultNavigatorStyle,
+        //     },
+        //     {
+        //       screen: 'screen.ScanScreen',
+        //       icon: scanIcon,
+        //       title: config.getApplicationName(),
+        //       navigatorButtons,
+        //       navigatorStyle: defaultNavigatorStyle,
+        //     },
+        //     {
+        //       screen: 'screen.SimpleMapScreen',
+        //       icon: mapIcon,
+        //       title: config.getApplicationName(),
+        //       navigatorButtons,
+        //       navigatorStyle: defaultNavigatorStyle,
+        //     }
+        //   ],
+        //   tabsStyle: { 
+        //     tabBarButtonColor: primaryText,
+        //     tabBarSelectedButtonColor: primaryDark,
+        //     tabBarBackgroundColor: '#551A8B', // optional, change the background color of the tab bar
+        //     initialTabIndex: 1, // optional, the default selected bottom tab. Default: 0. On Android, add this to appStyle
+        //   },
+        //   appStyle: {
+        //     // Here for android
+        //     tabBarButtonColor: bgMed,
+        //     tabBarSelectedButtonColor: primaryDark,
+        //     orientation: 'portrait',
+        //     bottomTabBadgeTextColor: 'red', // Optional, change badge text color. Android only
+        //     bottomTabBadgeBackgroundColor: 'green', // Optional, change badge background color. Android only
+        //   },
+        //   drawer,
+        //   passProps: {config},
+        //   animationType: 'fade'
+        // });
+      break;
+      }
+      default: 
+        throw new Error(`Unknown home screen type: ${config.getHomeScreenType()}`);
     }
-    default: 
-      throw new Error(`Unknown home screen type: ${config.getHomeScreenType()}`);
-  }
-})
-.catch((err: Error) => console.error(err));
+  })
+  .catch((err: Error) => console.error(err));
+}
+
+
+Navigation.events().registerAppLaunchedListener(() => {
+  console.log("app launched ?");
+  bootstrap();
+
+  // Navigation.setRoot({
+  //   name: 'App',
+  //   options: {},
+  //   passProps: {},
+  // });
+
+});

@@ -14,12 +14,13 @@ import { compose } from 'redux';
 import { TranslationFile } from 'ow_translations';
 import MenuButton from '../components/common/MenuButton';
 import { menuColors } from '../utils/NewColors';
+import { NavigationName, NavigationId } from '../typings/enums';
 
 
 export interface OwnProps {
-  navigator: any;
-  config: ConfigFactory,
   appApi: BaseApi,
+  componentId: NavigationId,
+  config: ConfigFactory,
 }
 
 export interface StateProps {
@@ -39,6 +40,7 @@ class HomeSimpleScreen extends Component<OwnProps & StateProps & ActionProps> {
 
   constructor(props: OwnProps & StateProps & ActionProps) {
     super(props);
+
   }
 
   /**
@@ -50,11 +52,12 @@ class HomeSimpleScreen extends Component<OwnProps & StateProps & ActionProps> {
     const { menu_well, menu_rainfall, menu_water_quality, menu_checkdam } = this.props;
     
     const presentResourceScreen = (pluralResourceName: string, resourceType: ResourceType): void => {
-      navigateTo(this.props, 'screen.SimpleResourceScreen', pluralResourceName, {
+      navigateTo(this.props.componentId, NavigationName.SimpleResourceScreen, {
+      // navigateTo('homeTabStack', NavigationName.SimpleResourceScreen, {
         config: this.props.config,
         userId: this.props.userId,
         resourceType
-      })
+      }, {});
     }
 
     return (

@@ -59,7 +59,8 @@ class ScanScreen extends Component<OwnProps & StateProps & ActionProps> {
     //@ts-ignore
     this.appApi = props.config.getAppApi();
 
-    this.navigationListener = this.props.navigator.addOnNavigatorEvent((event: any) => this.onNavigationEvent(event));
+    //TODO: reenable
+    // this.navigationListener = this.props.navigator.addOnNavigatorEvent((event: any) => this.onNavigationEvent(event));
 
     /* binds */
     this.onScan = this.onScan.bind(this);

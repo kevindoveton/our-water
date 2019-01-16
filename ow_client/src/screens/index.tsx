@@ -1,8 +1,4 @@
 import * as React from 'react';
-import {
-  Navigation,
-  ScreenVisibilityListener
-} from "react-native-navigation-v1-v2-adapter";
 
 import NewReadingScreen from './NewReadingScreen';
 import SettingsScreen from './SettingsScreen';
@@ -46,6 +42,8 @@ import { ActionType } from '../actions/ActionType';
 import { maybeLog } from '../utils';
 import PendingScreen from './menu/PendingScreen';
 import { ExternalServiceApiType } from '../api/ExternalServiceApi';
+import { Navigation } from 'react-native-navigation';
+import { NavigationName } from '../typings/enums';
 
 
 let loggerMiddleware: any = null;
@@ -205,23 +203,23 @@ export async function registerScreens(config: ConfigFactory) {
   }
 
   console.log("registering navigation components");
-  Navigation.registerComponent('screen.App', () => App, store, Provider);
-  Navigation.registerComponent('screen.MenuScreen', () => SettingsScreen, store, Provider);
-  Navigation.registerComponent('screen.SearchScreen', () => SearchScreenWithContext, store, Provider);
-  Navigation.registerComponent('screen.menu.EditResourceScreen', () => EditResourceScreen, store, Provider);
-  Navigation.registerComponent('screen.menu.ConnectToServiceScreen', () => ConnectToServiceScreen, store, Provider);
-  Navigation.registerComponent('screen.menu.SyncScreen', () => SyncScreen, store, Provider);
-  Navigation.registerComponent('screen.menu.SignInScreen', () => SignInScreen, store, Provider);
-  Navigation.registerComponent('screen.NewReadingScreen', () => NewReadingScreen, store, Provider);
-  Navigation.registerComponent('modal.SelectLanguageModal', () => SelectLanguageModal, store, Provider);
-  Navigation.registerComponent('screen.ScanScreen', () => ScanScreen, store, Provider);
-  Navigation.registerComponent('screen.SimpleMapScreen', () => SimpleMapScreen, store, Provider);
-  Navigation.registerComponent('screen.SimpleResourceScreen', () => SimpleResourceScreen, store, Provider);
-  Navigation.registerComponent('screen.SimpleResourceDetailScreen', () => SimpleResourceDetailScreen, store, Provider);
-  Navigation.registerComponent('modal.TakePictureScreen', () => TakePictureScreen, store, Provider);
-  Navigation.registerComponent('screen.GroundwaterSyncScreen', () => GroundwaterSyncScreen, store, Provider);
-  Navigation.registerComponent('screen.EditReadingsScreen', () => EditReadingsScreen, store, Provider);
-  Navigation.registerComponent('screen.PendingScreen', () => PendingScreen, store, Provider);
+  Navigation.registerComponentWithRedux(NavigationName.App, () => App, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.MenuScreen, () => SettingsScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.SearchScreen, () => SearchScreenWithContext, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.EditResourceScreen, () => EditResourceScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.ConnectToServiceScreen, () => ConnectToServiceScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.SyncScreen, () => SyncScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.SignInScreen, () => SignInScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.NewReadingScreen, () => NewReadingScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.SelectLanguageModal, () => SelectLanguageModal, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.ScanScreen, () => ScanScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.SimpleMapScreen, () => SimpleMapScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.SimpleResourceScreen, () => SimpleResourceScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.SimpleResourceDetailScreen, () => SimpleResourceDetailScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.TakePictureScreen, () => TakePictureScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.GroundwaterSyncScreen, () => GroundwaterSyncScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.EditReadingsScreen, () => EditReadingsScreen, Provider, store);
+  Navigation.registerComponentWithRedux(NavigationName.PendingScreen, () => PendingScreen, Provider, store);
 
   return store;
 }

@@ -20,6 +20,8 @@ import { MaybeUser, UserType } from '../typings/UserTypes';
 import { CacheType, AnyOrPendingReading } from '../reducers';
 import { prettyColors, primaryText, primary, surface, surfaceDark, secondary, secondaryLight, primaryLight, statusBarTextColorScheme, statusBarColor, navBarTextColor } from './NewColors';
 import { secondaryText } from '../assets/ggmn/Colors';
+import { Navigation } from 'react-native-navigation';
+import { NavigationId, NavigationName } from '../typings/enums';
 
 
 /**
@@ -187,14 +189,35 @@ export const getSelectedPendingResourceFromCoords = (resources: PendingResource[
   return filtered[0];
 }
 
-export const navigateTo = (props: any, screen: any, title: any, passProps: any, animationType = 'slide-horizontal') => {
+export function closeDrawer() {
+  Navigation.mergeOptions('leftSideComponentId', {
+    sideMenu: {
+      left: {
+        visible: false
+      }
+    }
+  });
+}
+
+export function openDrawer() {
+  Navigation.mergeOptions('leftSideComponentId', {
+    sideMenu: {
+      left: {
+        visible: true
+      }
+    }
+  });
+}
+
+export const navigateToDep = (props: any, screen: any, title: any, passProps: any, animationType = 'slide-horizontal') => {
   //TODO: only navigate if we aren't already here!
 
-  props.navigator.toggleDrawer({
-    side: 'left', // the side of the drawer since you can have two, 'left' / 'right'
-    animated: true, // does the toggle have transition animation or does it happen immediately (optional)
-    to: 'closed' // optional, 'open' = open the drawer, 'closed' = close it, missing = the opposite of current state
-  });
+  // props.navigator.toggleDrawer({
+  //   side: 'left', // the side of the drawer since you can have two, 'left' / 'right'
+  //   animated: true, // does the toggle have transition animation or does it happen immediately (optional)
+  //   to: 'closed' // optional, 'open' = open the drawer, 'closed' = close it, missing = the opposite of current state
+  // });
+
 
   props.navigator.push({
     screen,
@@ -206,14 +229,47 @@ export const navigateTo = (props: any, screen: any, title: any, passProps: any, 
   });
 }
 
+/**
+ * navigateTo
+ * 
+ * Pushes a new view on the current view's navigation stack
+ * 
+ * 
+ * @param fromComponentId 
+ * @param name 
+ * @param passProps 
+ * @param options eg:  
+ *   options: {
+        topBar: {
+          title: {
+            text: 'Pushed screen title'
+          }
+        }
+      }
+ */
+export function navigateTo(fromComponentId: NavigationId, name: NavigationName, passProps: any, options: any ) {
+  Navigation.push(fromComponentId.toString(), {
+    stack: {
+      children: [{
+        component: {
+          name,
+          passProps,
+          options,
+        }
+      }]
+    }
+  });
+
+}
+
 export const showModal = (props: any, screen: any, title: any, passProps: any) => {
   //TODO: only navigate if we aren't already here!
 
-  props.navigator.toggleDrawer({
-    side: 'left', // the side of the drawer since you can have two, 'left' / 'right'
-    animated: true, // does the toggle have transition animation or does it happen immediately (optional)
-    to: 'closed' // optional, 'open' = open the drawer, 'closed' = close it, missing = the opposite of current state
-  });
+  // props.navigator.toggleDrawer({
+  //   side: 'left', // the side of the drawer since you can have two, 'left' / 'right'
+  //   animated: true, // does the toggle have transition animation or does it happen immediately (optional)
+  //   to: 'closed' // optional, 'open' = open the drawer, 'closed' = close it, missing = the opposite of current state
+  // });
 
   // TODO: change left arrow to just x
   props.navigator.showModal({
