@@ -213,7 +213,7 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
     //react-native-navigation
-    implementation(project(':react-native-navigation')
+    implementation(project(':react-native-navigation'))
 
     // implementation (project(':react-native-camera')) {
     //     exclude group: "com.android.support"
