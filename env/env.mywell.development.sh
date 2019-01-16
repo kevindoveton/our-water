@@ -10,13 +10,15 @@ export REACT_APP_BASE_URL="https://us-central1-our-water.cloudfunctions.net"
 #config timeout is in seconds
 export REACT_APP_REMOTE_CONFIG_TIMEOUT=10
 export REMOTE_CONFIG_DEVELOPER_MODE=true
-export ENABLE_LOGGING='false'
-export ENABLE_RENDER_LOGGING='false'
+export ENABLE_LOGGING='true'
+export ENABLE_RENDER_LOGGING='true'
 export ENABLE_REDUX_LOGGING='false'
-export ENABLE_CACHE='true'
+export ENABLE_CACHE='false'
 
 #Remote config setup
 export SHOULD_USE_LOCAL_CONFIG='true'
+
+#Just for now, as we are still sorting this out.
 export CONFIG_TYPE='MyWellDevConfig'
 
 export APP_NAME="MyWell Dev"
