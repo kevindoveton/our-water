@@ -20,7 +20,7 @@ import { MaybeUser, UserType } from '../typings/UserTypes';
 import { CacheType, AnyOrPendingReading } from '../reducers';
 import { prettyColors, primaryText, primary, surface, surfaceDark, secondary, secondaryLight, primaryLight, statusBarTextColorScheme, statusBarColor, navBarTextColor } from './NewColors';
 import { secondaryText } from '../assets/ggmn/Colors';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, OptionsModalTransitionStyle } from 'react-native-navigation';
 import { NavigationId, NavigationName } from '../typings/enums';
 
 
@@ -248,15 +248,18 @@ export const navigateToDep = (props: any, screen: any, title: any, passProps: an
       }
  */
 export function navigateTo(fromComponentId: NavigationId, name: NavigationName, passProps: any, options: any ) {
-  Navigation.push(fromComponentId.toString(), {
-    stack: {
-      children: [{
+
+  Navigation.push('homeTabStack', {
+    // stack: {
+      // children: [{
         component: {
           name,
           passProps,
-          options,
-        }
-      }]
+          // options: {
+          //   modalTransitionStyle: OptionsModalTransitionStyle.partialCurl,
+          // }
+        // }
+      // }]
     }
   });
 

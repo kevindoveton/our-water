@@ -8,7 +8,10 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { NavigationName } from './typings/enums';
+import { ResourceType } from './enums';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -17,7 +20,10 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-type Props = {};
+type Props = {
+  config: string,
+  componentId: string,
+};
 export default class TestApp extends Component<Props> {
   render() {
     return (
@@ -25,6 +31,16 @@ export default class TestApp extends Component<Props> {
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
+        <Button title="test" onPress={() => Navigation.push(this.props.componentId, {
+          component: {
+            name: NavigationName.SimpleResourceScreen,
+            passProps: {
+              config: this.props.config,
+              userId: "12345",
+              resourceType: ResourceType.well,
+            }
+          }
+        })}/>
       </View>
     );
   }

@@ -8,10 +8,10 @@ export enum SyncStatus {
 }
 
 export enum NavigationId {
-  'leftSideComponentId',
-  'tabHome',
-  'tabScan,',
-  'tabMap',
+  'leftSideComponentId'='leftSideComponentId',
+  'tabHome'='tabHome',
+  'tabScan'='tabScan',
+  'tabMap'='tabMap',
 
 }
 

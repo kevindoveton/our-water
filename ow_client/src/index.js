@@ -68,7 +68,33 @@ function bootstrap () {
   .then(() => {
     console.log("registering AppRegistry");
     // For debugging Navigation issues
-    // Navigation.registerComponent('screen.TestApp', () => TestApp);
+    Navigation.registerComponent('TestApp', () => TestApp);
+
+    Navigation.setDefaultOptions({
+      layout: {
+        backgroundColor: 'white',
+        orientation: ['portrait'],
+      },
+      modalPresentationStyle: 'none',
+      bottomTabs: {
+        // elevation: 8, // BottomTabs elevation in dp
+        titleDisplayMode: 'alwaysHide'
+      },
+      push: {
+        content: {
+          x: {
+            from: -1000,
+            to: 0,
+            duration: 300,
+          },
+          alpha: { // Optional
+            from: 0.5,
+            to: 1,
+            duration: 300,
+          }
+        }
+      },
+    });
 
     // console.log("registering search button");
     // Navigation.registerComponent('example.SearchButton', () => SearchButton);
@@ -178,17 +204,37 @@ function bootstrap () {
           }
         };
 
+        // Navigation.setRoot({
+        //   root: {
+        //     sideMenu: {
+        //       left: leftMenu,
+        //       center: {
+        //         bottomTabs: {
+        //           children: [
+        //             homeTab,
+        //             scanTab,
+        //             mapTab,
+        //           ]
+        //         }
+        //       }
+        //     }
+        //   }
+        // });
         Navigation.setRoot({
           root: {
-            sideMenu: {
-              left: leftMenu,
-              center: {
-                bottomTabs: {
-                  children: [
-                    homeTab,
-                    scanTab,
-                    mapTab,
-                  ]
+            stack: {
+              id: 'homeTabStack',
+              children: [{
+                component: {
+                  id: NavigationId.tabHome,
+                  name: 'TestApp',
+                  passProps: { config, componentId: NavigationId.tabHome },
+                }
+              }],
+              options: {
+                bottomTab: {
+                  icon: homeIcon,
+                  testID: 'FIRST_TAB_BAR_BUTTON'
                 }
               }
             }

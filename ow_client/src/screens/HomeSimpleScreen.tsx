@@ -57,7 +57,13 @@ class HomeSimpleScreen extends Component<OwnProps & StateProps & ActionProps> {
         config: this.props.config,
         userId: this.props.userId,
         resourceType
-      }, {});
+      }, {
+        topBar: {
+          title: {
+            text: 'Post1'
+          }
+        }
+      });
     }
 
     return (
