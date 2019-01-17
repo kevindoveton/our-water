@@ -80,20 +80,6 @@ function bootstrap () {
         // elevation: 8, // BottomTabs elevation in dp
         titleDisplayMode: 'alwaysHide'
       },
-      push: {
-        content: {
-          x: {
-            from: -1000,
-            to: 0,
-            duration: 300,
-          },
-          alpha: { // Optional
-            from: 0.5,
-            to: 1,
-            duration: 300,
-          }
-        }
-      },
     });
 
     // console.log("registering search button");
