@@ -17,6 +17,8 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import org.reactnative.camera.RNCameraPackage;
 
+import com.gu.toolargetool.TooLargeTool;
+
 import com.crashlytics.android.Crashlytics;
 
 //react-native-maps
@@ -81,6 +83,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    TooLargeTool.startLogging(this);
     System.out.println("MainApplication.java onCreate()");
     SoLoader.init(this, /* native exopackage */ false);
     // Crashlytics.getInstance().crash(); // Force a crash

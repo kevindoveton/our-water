@@ -6,9 +6,15 @@ buildscript {
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
+            
 
             //Crashlytics dependencies via maven
             url 'https://maven.fabric.io/public'
+        }
+        
+        //toolargetool
+        maven {
+            url 'https://dl.bintray.com/guardian/android'
         }
         google()
         jcenter()
@@ -30,6 +36,11 @@ allprojects {
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
+
+        }
+        // toolargetool
+        maven {
+            url 'https://dl.bintray.com/guardian/android'
         }
         jcenter()
         google()
