@@ -46,6 +46,7 @@ import { diff } from 'deep-object-diff';
 
 const initialLat: number = -20.4010;
 const initialLng: number = 32.3373;
+const GGMN_PAGE_SIZE = 75;
 
 
 //TODO: move elsewhere
@@ -58,7 +59,7 @@ export type Cursor = {
 const startCursor: Cursor = {
   hasNext: true,
   page: 1,
-  limit: 100,
+  limit: GGMN_PAGE_SIZE,
 };
 
 export interface OwnProps {
