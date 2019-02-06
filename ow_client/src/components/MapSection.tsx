@@ -3,7 +3,7 @@ import * as React from 'react'; import { Component } from 'react';
 import { View, TouchableWithoutFeedback } from "react-native";
 import { Callout, Marker, Region } from 'react-native-maps';
 // import { MapView } from 'react-native-component-map-clustering';
-import MapView from '@bam.tech/react-native-component-map-clustering';
+import MapView from 'react-native-map-clustering';
 import { BasicCoords, DeprecatedResource } from '../typings/models/OurWater';
 import { MapHeightOption, MapStateOption } from '../enums';
 import { bgMed, primaryDark, primaryText, primary, secondaryLight, secondary, greyMed, greyDark, primaryLight } from '../utils/Colors';
