@@ -1,7 +1,9 @@
 import * as React from 'react'; import { Component } from 'react';
-import ClusteredMapView from "./common/ClusteredMapView";
+
 import { View, TouchableWithoutFeedback } from "react-native";
-import MapView, { Callout, Marker, Region } from 'react-native-maps';
+import { Callout, Marker, Region } from 'react-native-maps';
+// import { MapView } from 'react-native-component-map-clustering';
+import MapView from '@bam.tech/react-native-component-map-clustering';
 import { BasicCoords, DeprecatedResource } from '../typings/models/OurWater';
 import { MapHeightOption, MapStateOption } from '../enums';
 import { bgMed, primaryDark, primaryText, primary, secondaryLight, secondary, greyMed, greyDark, primaryLight } from '../utils/Colors';
@@ -331,7 +333,8 @@ class MapSection extends Component<OwnProps & StateProps & ActionProps & DebugPr
         maxHeight: mapHeight
       }}>
         <MapView
-          ref={(ref: any) => {
+          clustering={true}
+          setRef={(ref: any) => {
             this.props.mapRef(ref);
           }}
           style={{

@@ -871,6 +871,13 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@bam.tech/react-native-component-map-clustering@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@bam.tech/react-native-component-map-clustering/-/react-native-component-map-clustering-1.1.1.tgz#9d4d9469839e1c5f9844c43853edf0166ebacb7d"
+  dependencies:
+    lodash "^4.17.5"
+    supercluster "^4.0.1"
+
 "@firebase/app-types@0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.3.2.tgz#a92dc544290e2893bd8c02a81e684dae3d8e7c85"
@@ -6592,9 +6599,9 @@ react-native-map-clustering@^1.3.0:
     react-native-dimension "^1.0.6"
     supercluster "^3.0.1"
 
-react-native-maps@0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.20.1.tgz#b5247a9a26446b2e1ffc3f680db8ba6ccc960096"
+react-native-maps@0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.21.0.tgz#005f58e93d7623ad59667e8002101970ddf235c2"
   dependencies:
     babel-plugin-module-resolver "^2.3.0"
     babel-preset-react-native "1.9.0"
@@ -7713,7 +7720,7 @@ supercluster@^3.0.1:
   dependencies:
     kdbush "^1.0.1"
 
-supercluster@^4.1.1:
+supercluster@^4.0.1, supercluster@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-4.1.1.tgz#cf13c3b28a3fb3db5290bfad7f524e244bd4ce78"
   dependencies:
